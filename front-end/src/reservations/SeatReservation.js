@@ -30,8 +30,10 @@ function SeatReservation() {
   async function submitHandler(e) {
     e.preventDefault();
     const abortController = new AbortController();
+    console.log(selectedTable);
+    debugger;
     seatTable(
-      e.options[e.selectedIndex].value,
+      selectedTable,
       Number(params.reservation_id),
       abortController.signal
     )
