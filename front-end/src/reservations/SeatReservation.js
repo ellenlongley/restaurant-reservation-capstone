@@ -25,25 +25,51 @@ function SeatReservation() {
     setSelectedTable(value);
   }
 
-  async function submitHandler(e) {
-    e.preventDefault();
-    const table = await seatTable(selectedTable, params.reservation_id);
-    console.log("table", table);
-    if (table) {
-      history.push(`/dashboard`);
-    }
-  }
+  // testing the submit handler w/ chat
+  var e = document.getElementsByName("table_id")[0];
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const abortController = new AbortController();
+    seatTable(
+      e.options[e.selectedIndex].value,
+      Number(params.reservation_id),
+      abortController.signal
+    ).then(() => history.push(`/dashboard`));
+    // .catch(setError);
+  };
+
+  // async function submitHandler(e) {
+  //   e.preventDefault();
+  //   const table = await seatTable(selectedTable, params.reservation_id);
+  //   console.log("table", table);
+  //   if (table) {
+  //     history.push(`/dashboard`);
+  //   }
+  // }
 
   function cancelHandler() {
     history.goBack();
   }
+
+  const tablesList = tables.map((table) => (
+    <option
+      key={table.table_id}
+      name={table.table_id}
+      id={table.table_name}
+      value={table.table_id}
+    >
+      {table.table_name} - {table.capacity}
+    </option>
+  ));
 
   return (
     <div className="mb-3">
       <label className="form-label" htmlFor="tables">
         Tables
       </label>
-      <select
+      {/* <select
         className="form-control"
         id="tables"
         name="table_id"
@@ -69,7 +95,19 @@ function SeatReservation() {
       </button>
       <button type="submit" className="btn btn-primary" onClick={submitHandler}>
         Submit
-      </button>
+      </button> */}
+      <form onSubmit={handleSubmit}>
+        <select name="table_id" required={true}>
+          <option key="default-tbl-key" defaultValue value="">
+            Table Number - Capacity Amount
+          </option>
+          {tablesList}
+        </select>
+        <button type="submit">Submit</button>
+        <button type="button" onClick={cancelHandler}>
+          Cancel
+        </button>
+      </form>
     </div>
   );
 }
