@@ -3,11 +3,13 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
+import ErrorAlert from "../layout/ErrorAlert";
 import { listTables, seatTable } from "../utils/api";
 
 function SeatReservation() {
   const [tables, setTables] = useState([]);
   const [selectedTable, setSelectedTable] = useState();
+  const [error, setError] = useState(null);
   const params = useParams();
   const history = useHistory();
 
@@ -27,11 +29,14 @@ function SeatReservation() {
 
   async function submitHandler(e) {
     e.preventDefault();
-    const table = await seatTable(selectedTable, params.reservation_id);
-    console.log("table", table);
-    if (table) {
-      history.push(`/dashboard`);
-    }
+    const abortController = new AbortController();
+    seatTable(
+      e.options[e.selectedIndex].value,
+      Number(params.reservation_id),
+      abortController.signal
+    )
+      .then(() => history.push(`/dashboard`))
+      .catch(setError);
   }
 
   function cancelHandler() {
@@ -40,6 +45,7 @@ function SeatReservation() {
 
   return (
     <div className="mb-3">
+      <ErrorAlert error={error} />
       <label className="form-label" htmlFor="tables">
         Tables
       </label>
