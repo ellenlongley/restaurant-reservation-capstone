@@ -9,8 +9,8 @@ import ErrorAlert from "../layout/ErrorAlert";
 function NewTable() {
   const history = useHistory();
 
-  const [tableName, setTableName] = useState();
-  const [capacity, setCapacity] = useState();
+  const [tableName, setTableName] = useState("");
+  const [capacity, setCapacity] = useState("");
   const [error, setError] = useState(null);
 
   const handleTableNameChange = (event) => setTableName(event.target.value);
@@ -41,7 +41,7 @@ function NewTable() {
       <ErrorAlert error={error} />
       <form onSubmit={submitHandler}>
         <div className="mb-3">
-          <label for="table_name" className="form-label">
+          <label htmlFor="table_name" className="form-label">
             Table Name
           </label>
           <input
@@ -55,7 +55,7 @@ function NewTable() {
           />
         </div>
         <div className="mb-3">
-          <label for="capacity" className="form-label">
+          <label htmlFor="capacity" className="form-label">
             Capacity
           </label>
           <input

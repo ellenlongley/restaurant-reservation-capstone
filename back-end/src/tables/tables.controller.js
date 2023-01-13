@@ -26,7 +26,6 @@ async function hasOnlyValidProperties(req, res, next) {
 }
 
 async function hasData(req, res, next) {
-  console.log("inside has Data");
   if (!req.body.data) {
     return next({
       status: 400,
@@ -37,7 +36,6 @@ async function hasData(req, res, next) {
 }
 
 async function hasResId(req, res, next) {
-  console.log("has res id");
   const resId = req.body.data.reservation_id;
   if (resId) {
     return next();
@@ -81,7 +79,6 @@ async function tableOccupied(req, res, next) {
 }
 
 async function hasSufficientCapacity(req, res, next) {
-  console.log("made it to has sufficient cap");
   const reservation = res.locals.reservation;
   const table = res.locals.table;
   if (reservation.people <= table.capacity) {
@@ -99,12 +96,10 @@ async function reservationAlreadySeated(req, res, next) {
 }
 
 async function reservationExists(req, res, next) {
-  console.log("inside res exists");
   reservationsService
     .read(req.body.data.reservation_id)
     .then((reservation) => {
       if (reservation) {
-        console.log("found res");
         res.locals.reservation = reservation;
         return next();
       }
@@ -143,13 +138,10 @@ async function tableResExists(req, res, next) {
 }
 
 async function tableExists(req, res, next) {
-  console.log("inside table exists");
-  debugger;
   tablesService
     .read(req.params.table_id)
     .then((table) => {
       if (table) {
-        console.log("found table");
         res.locals.table = table;
         return next();
       } else {
@@ -168,8 +160,6 @@ async function tableExists(req, res, next) {
 }
 
 async function tableUnoccupied(req, res, next) {
-  console.log("inside table unnocupied");
-  debugger;
   if (res.locals.table.reservation_id) {
     return next({
       status: 400,
@@ -182,7 +172,6 @@ async function tableUnoccupied(req, res, next) {
 //validations above
 
 async function seatReservation(req, res, next) {
-  console.log("made it to seatRes");
   const updatedTable = {
     ...req.body.data,
     table_id: res.locals.table.table_id,

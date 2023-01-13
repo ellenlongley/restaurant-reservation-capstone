@@ -10,11 +10,14 @@ function EditReservation() {
   const [editReservation, setEditReservation] = useState(null);
 
   useEffect(() => {
+    const abortController = new AbortController();
     if (params.reservation_id) {
-      listReservations({ reservation_id: params.reservation_id }).then(
-        (reservations) => setEditReservation(reservations[0])
-      );
+      listReservations(
+        { reservation_id: params.reservation_id },
+        abortController.signal
+      ).then((reservations) => setEditReservation(reservations[0]));
     }
+    return () => abortController.abort();
   }, [params.reservation_id]);
 
   return <ReservationForm editReservation={editReservation} />;

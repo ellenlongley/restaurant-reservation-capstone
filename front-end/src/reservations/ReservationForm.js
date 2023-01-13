@@ -15,7 +15,6 @@ function ReservationForm({ editReservation }) {
         resTimeArr.pop();
         resTime = resTimeArr.join(":");
       }
-      console.log(resTime);
       setFirstName(editReservation.first_name);
       setLastName(editReservation.last_name);
       setMobileNumber(editReservation.mobile_number);
@@ -25,12 +24,12 @@ function ReservationForm({ editReservation }) {
     }
   }, [editReservation]);
 
-  const [firstName, setFirstName] = useState();
-  const [lastName, setLastName] = useState();
-  const [mobileNumber, setMobileNumber] = useState();
-  const [dateOfReservation, setDateOfReservation] = useState();
-  const [timeOfReservation, setTimeOfReservation] = useState();
-  const [numberOfPeople, setNumberOfPeople] = useState();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [dateOfReservation, setDateOfReservation] = useState("");
+  const [timeOfReservation, setTimeOfReservation] = useState("");
+  const [numberOfPeople, setNumberOfPeople] = useState("");
   const [error, setError] = useState(null);
 
   const handleFirstNameChange = (event) => setFirstName(event.target.value);
@@ -96,7 +95,7 @@ function ReservationForm({ editReservation }) {
       <ErrorAlert error={error} />
       <form onSubmit={submitHandler}>
         <div className="mb-3">
-          <label for="first_name" className="form-label">
+          <label htmlFor="first_name" className="form-label">
             First Name
           </label>
           <input
@@ -110,7 +109,7 @@ function ReservationForm({ editReservation }) {
           />
         </div>
         <div className="mb-3">
-          <label for="last_name" className="form-label">
+          <label htmlFor="last_name" className="form-label">
             Last Name
           </label>
           <input
@@ -125,7 +124,7 @@ function ReservationForm({ editReservation }) {
         </div>
         <div className="mb-3">
           <label
-            for="mobile_number"
+            htmlFor="mobile_number"
             className="form-label"
             onKeyDown={isNumberKey}
             onKeyUp={isNumberKey}
@@ -143,7 +142,7 @@ function ReservationForm({ editReservation }) {
           />
         </div>
         <div className="mb-3">
-          <label for="reservation_date" className="form-label">
+          <label htmlFor="reservation_date" className="form-label">
             Reservation Date
           </label>
           <input
@@ -158,7 +157,7 @@ function ReservationForm({ editReservation }) {
           />
         </div>
         <div className="mb-3">
-          <label for="reservation_time" className="form-label">
+          <label htmlFor="reservation_time" className="form-label">
             Reservation Time
           </label>
           <input
@@ -173,7 +172,7 @@ function ReservationForm({ editReservation }) {
           />
         </div>
         <div className="mb-3">
-          <label for="people" className="form-label">
+          <label htmlFor="people" className="form-label">
             Number Of People
           </label>
           <input
